@@ -4,6 +4,7 @@ import "./globals.css";
 import { AppContextProvider } from "@/contexts/AppContext";
 import Header from "@/components/Layout/Header";
 import Footer from "@/components/Layout/Footer";
+import { cookies } from "next/headers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,6 +27,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+  const isLoggedIn = !!token;
+
   return (
     <html lang="en">
       <body
@@ -33,7 +38,7 @@ export default function RootLayout({
       >
         <AppContextProvider>
           <main className="flex flex-col h-screen">
-            <Header />
+            <Header isLoggedIn={isLoggedIn} />
             <section className="grow">{children}</section>
             <Footer />
           </main>

@@ -1,11 +1,24 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useApp } from "@/contexts/AppContext";
 import { appRoutes } from "@/utils/globalConstant";
 
-const Header = () => {
-  const { isAuthenticated } = useApp();
+type HeaderProps = {
+  isLoggedIn: boolean;
+};
+
+const Header = ({ isLoggedIn }: HeaderProps) => {
+  const { isAuthenticated, setIsAuthenticated } = useApp();
+
+  useEffect(() => {
+    if (isLoggedIn) setIsAuthenticated(true);
+
+    return () => {
+      setIsAuthenticated(false);
+    };
+  }, [isLoggedIn, setIsAuthenticated]);
+
   return (
     <header className="w-full bg-white shadow-md px-6 py-4 flex items-center justify-between">
       {/* Left: Logo + Nav */}

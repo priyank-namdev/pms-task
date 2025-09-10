@@ -3,7 +3,7 @@
 import React, {
   createContext,
   useContext,
-  useEffect,
+  // useEffect,
   useMemo,
   useState,
 } from "react";
@@ -19,6 +19,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children: React.ReactNode;
 }) => {
   // Constants
+  // const token = sessionStorage.getItem("token");
 
   // States
   // const [isLoading, setIsLoading] = useState(false);
@@ -39,10 +40,11 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Hooks
 
-  useEffect(() => {
-    if (isAuthenticated) {
-    }
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   if (token) {
+  //     setIsAuthenticated(true);
+  //   }
+  // }, [token]);
 
   // useEffect(() => {
   //   setIsLoading(false);
