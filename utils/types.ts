@@ -1,11 +1,13 @@
+export type Task = {
+  id: number;
+  title: string;
+  status: "Todo" | "In Progress" | "Done";
+};
+
+export type Project = { id: number; name: string; tasks: Task[] };
 
 export type AppContextType = {
-  // isLoading: boolean;
-  // setIsLoading: (isLoading: boolean) => void;
-  // userDetails: userDetailType;
-  // setUserDetails: (userDetails: userDetailType) => void;
   isAuthenticated: boolean;
   setIsAuthenticated: (userDetails: boolean) => void;
-
   // Function
 };

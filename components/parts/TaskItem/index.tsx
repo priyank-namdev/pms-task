@@ -44,7 +44,7 @@ const TaskItem: React.FC<Props> = ({
         </div>
       }
     >
-      <ListItemText primary={task.title} />
+      <ListItemText primary={task?.title} />
     </ListItem>
   );
 };

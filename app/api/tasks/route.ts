@@ -109,9 +109,8 @@ export async function PUT(req: NextRequest) {
 // DELETE → remove task
 export async function DELETE(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-    const projectId = searchParams.get("projectId");
+    const body = await req.json();
+    const { id, projectId } = body;
 
     if (!id || !projectId) {
       return NextResponse.json(
@@ -120,6 +119,7 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
+    // Firestore doc reference banao
     const taskRef = doc(db, "projects", projectId, "tasks", id);
     await deleteDoc(taskRef);
 

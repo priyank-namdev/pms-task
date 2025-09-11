@@ -46,7 +46,12 @@ const Dashboard = () => {
         body: JSON.stringify({ name, description: "New Project" }),
       });
       const newProject = await res.json();
-      setProjects((prev) => [...prev, newProject]);
+      const proj: Project = {
+        id: newProject?.id,
+        name: name,
+        tasks: [],
+      };
+      setProjects((prev) => [...prev, proj]);
     } catch (err) {
       console.error(err);
     } finally {
@@ -101,12 +106,18 @@ const Dashboard = () => {
             status,
           }),
         });
-        const newTask = await res.json();
+        const resData = await res.json();
+
+        const newTask = {
+          id: resData?.id,
+          title: title,
+          status: status,
+        };
 
         setProjects((prev) =>
           prev.map((p) =>
             p.id === selectedProject.id
-              ? { ...p, tasks: [...p.tasks, newTask] }
+              ? { ...p, tasks: [...(p.tasks || []), newTask] }
               : p
           )
         );

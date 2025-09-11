@@ -6,10 +6,28 @@ import { collection, addDoc, getDocs } from "firebase/firestore";
 export async function GET() {
   try {
     const querySnapshot = await getDocs(collection(db, "projects"));
-    const projects = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+
+    const projects = await Promise.all(
+      querySnapshot.docs.map(async (projectDoc) => {
+        const projectData = projectDoc.data();
+
+        // fetch tasks subcollection for this project
+        const tasksSnap = await getDocs(
+          collection(db, "projects", projectDoc.id, "tasks")
+        );
+
+        const tasks = tasksSnap.docs.map((taskDoc) => ({
+          id: taskDoc.id,
+          ...taskDoc.data(),
+        }));
+
+        return {
+          id: projectDoc.id,
+          ...projectData,
+          tasks, // will be [] if no tasks
+        };
+      })
+    );
 
     return NextResponse.json({ projects }, { status: 200 });
   } catch (error) {

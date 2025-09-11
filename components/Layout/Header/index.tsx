@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useApp } from "@/contexts/AppContext";
 import { appRoutes } from "@/utils/globalConstant";
+import { logoutUser } from "@/lib/firebase";
 
 type HeaderProps = {
   isLoggedIn: boolean;
@@ -10,6 +11,19 @@ type HeaderProps = {
 
 const Header = ({ isLoggedIn }: HeaderProps) => {
   const { isAuthenticated, setIsAuthenticated } = useApp();
+
+  // Functions
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      // alert("Logged out successfully");
+      // optionally redirect to login page
+      window.location.href = "/login";
+    } catch (err) {
+      console.error(err);
+      alert("Failed to log out");
+    }
+  };
 
   useEffect(() => {
     if (isLoggedIn) setIsAuthenticated(true);
@@ -40,10 +54,7 @@ const Header = ({ isLoggedIn }: HeaderProps) => {
         {isAuthenticated ? (
           <div className="flex items-center space-x-4">
             <button
-              onClick={() => {
-                // logout();
-                window.location.href = "/login";
-              }}
+              onClick={handleLogout}
               className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
             >
               Logout
